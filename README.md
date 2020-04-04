@@ -33,12 +33,20 @@ Licensed under [MIT License](LICENSE)
 7. Back to `APIs & Services` > choose `Credentials` > click `+ Create Credentials` > choose `Service account`
 8. Fill up the `Service account detail` based on your preference > set permission based on your preference (i.e. Project Owner) > Create key in JSON format > store the result
 
-
 ## Known Limitation
 1. Only support for `application/json` based schema
 2. Not support nested `$ref`
 3. The order of endpoint between table of content and list of endpoint hasn't same yet
 4. Numbering list does not appear on Google Docs
+
+# How-to-contribute
+1. Fork this repository
+2. Clone this repository into your local machine (`git clone https://github.com/weisurya/go-openapi-converter`)
+3. Go to the project directory (`cd go-openapi-converter`)
+4. Create a new branch (`git checkout -b your-new-feature`)
+5. Make changes and add commit them
+6. Push your branch into the fork-ed repository (`git push origin your-new-feature`)
+7. Create new pull request (`https://github.com/weisurya/go-openapi-converter/pulls`)
 
 
 ## Main Dependencies
