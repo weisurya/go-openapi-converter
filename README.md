@@ -42,7 +42,7 @@ Licensed under [MIT License](LICENSE)
 3. The order of endpoint between table of content and list of endpoint hasn't same yet
 4. Numbering list does not appear on Google Docs
 
-# How-to-contribute
+## How-to-contribute
 1. Fork this repository
 2. Clone this repository into your local machine (`git clone https://github.com/weisurya/go-openapi-converter`)
 3. Go to the project directory (`cd go-openapi-converter`)
