@@ -1,0 +1,234 @@
+openapi: 3.0.0
+info:
+  title: Sample OpenAPI v3 Spec
+  version: '1.0'
+  description: This is a sample OpenAPI v3 spec. Created by using stoplight.io
+  contact:
+    name: Soen Surya Soenaryo
+    url: 'https://soensurya.com/'
+    email: wei.surya@gmail.com
+  license:
+    name: MIT
+    url: 'https://opensource.org/licenses/MIT'
+servers:
+  - url: 'http://localhost:3000'
+    description: local server
+  - url: 'http://mock-server:3000'
+    description: mock server
+  - url: 'http://production-server:3000'
+    description: production server
+paths:
+  '/sample/ref/{id}':
+    get:
+      summary: Retrieve data
+      tags:
+        - ref
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/sample.response'
+      operationId: get-sample-ref
+      security:
+        - api-key: []
+      parameters:
+        - schema:
+            type: string
+          in: header
+          name: additional-header
+        - schema:
+            type: string
+          in: query
+          name: class
+      requestBody: {}
+      description: Retrieve data
+    parameters:
+      - schema:
+          type: string
+        name: id
+        in: path
+        required: true
+        description: Unique ID
+    post:
+      summary: Create data
+      operationId: post-sample-ref
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/sample.response'
+      description: Create data
+      security:
+        - api-key: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/sample.request'
+      parameters:
+        - schema:
+            type: string
+          in: header
+          name: additional-header
+      tags:
+        - ref
+    patch:
+      summary: Update data
+      operationId: patch-sample-ref-id
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/sample.response'
+      security:
+        - api-key: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/sample.request'
+      description: Update data
+      parameters:
+        - schema:
+            type: string
+          in: header
+          name: additional-header
+      tags:
+        - ref
+    delete:
+      summary: Delete data
+      operationId: delete-sample-ref-id
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/sample.response'
+      security:
+        - api-key: []
+      parameters:
+        - schema:
+            type: string
+          in: header
+          name: additional-header
+      tags:
+        - ref
+  /sample/simple:
+    post:
+      summary: Create simple data
+      operationId: post-sample-simple
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    description: Unique ID
+                  created_at:
+                    type: string
+                    description: Datetime of when data created
+                  updated_at:
+                    type: string
+                    description: Datetime of when data last updated
+                required:
+                  - id
+                  - created_at
+                  - updated_at
+      tags:
+        - simple
+      description: Create simple data
+      security:
+        - api-key: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id:
+                  type: string
+                  description: Unique ID
+components:
+  schemas:
+    sample.request:
+      title: sample.request
+      type: object
+      properties:
+        amount:
+          type: number
+          default: 100
+          description: Amount
+        context:
+          type: array
+          description: Context in array
+          items:
+            type: string
+        class:
+          type: string
+          enum:
+            - LOW
+            - MEDIUM
+            - HIGH
+          description: Type of class
+        description:
+          type: string
+          description: Description
+    sample.response:
+      title: sample.response
+      type: object
+      properties:
+        id:
+          type: string
+          description: Unique ID
+        amount:
+          type: number
+          description: Amount
+        context:
+          type: array
+          description: Context in array
+          items:
+            type: string
+        class:
+          type: string
+          enum:
+            - LOW
+            - MEDIUM
+            - HIGH
+          description: Type of class
+        description:
+          type: string
+          description: Description
+        created_at:
+          type: string
+          format: date-time
+          description: Datetime of when data created
+        updated_at:
+          type: string
+          format: date-time
+          description: Datetime of when data last updated
+      required:
+        - id
+        - amount
+        - context
+        - class
+        - description
+        - created_at
+        - updated_at
+  securitySchemes:
+    api-key:
+      name: API key that located in header
+      type: apiKey
+      in: header
+security:
+  - api-key: []
