@@ -1,6 +1,9 @@
 [![Build Status](https://travis-ci.org/weisurya/go-openapi-converter.svg?branch=master)](https://travis-ci.org/weisurya/go-openapi-converter)
 [![Go Report Card](https://goreportcard.com/badge/github.com/weisurya/go-openapi-converter)](https://goreportcard.com/report/github.com/weisurya/go-openapi-converter)
 
+# go-openapi-converter
+![alt text](./mascot.png "Logo Title Text 1")
+
 ## Introduction
 A [Golang](https://golang.org/)-based tool to convert OpenAPI spec into `.docx` based format.
 
@@ -47,7 +50,8 @@ Licensed under [MIT License](LICENSE)
 2. Clone this repository into your local machine (`git clone https://github.com/weisurya/go-openapi-converter`)
 3. Go to the project directory (`cd go-openapi-converter`)
 4. Create a new branch (`git checkout -b your-new-feature`)
-5. Make changes and add commit them
+5. Try to run the code (`go run app/main.go`)
+6. Make changes and add commit them
 6. Push your branch into the fork-ed repository (`git push origin your-new-feature`)
 7. Create new pull request (`https://github.com/weisurya/go-openapi-converter/pulls`)
 
