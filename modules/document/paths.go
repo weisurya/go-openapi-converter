@@ -319,9 +319,9 @@ func buildSpec(doc *document.Document, swagger *openapi3.Swagger, endpoint *open
 			para := doc.AddParagraph()
 			run := para.AddRun()
 			para.SetStyle("Heading3")
-			run.AddText("Response Body Schema")
 
 			for httpStatus := range endpoint.Responses {
+				run.AddText("Response Body Schema - " + httpStatus)
 
 				if endpoint.Responses[httpStatus].Ref != "" {
 					component := swagger.Components.Schemas[endpoint.Responses[httpStatus].Ref].Value
