@@ -16,8 +16,8 @@ func ExtractSecurityRequirementKey(input openapi3.SecurityRequirement) string {
 }
 
 // ExtractInterfaceOfMap retrieves interface-based data with structure of hashmap
-func ExtractInterfaceOfMap(data interface{}) (bool, map[string]string) {
-	result := make(map[string]string)
+func ExtractInterfaceOfMap(data interface{}) (bool, map[string]interface{}) {
+	result := make(map[string]interface{})
 	m := reflect.ValueOf(data)
 
 	if m.Kind() != reflect.Map {
@@ -26,7 +26,17 @@ func ExtractInterfaceOfMap(data interface{}) (bool, map[string]string) {
 		for _, key := range m.MapKeys() {
 			value := m.MapIndex(key)
 
-			result[key.Interface().(string)] = value.Interface().(string)
+			switch value.Interface().(type) {
+			case string:
+				result[key.Interface().(string)] = value.Interface().(string)
+			case bool:
+				result[key.Interface().(string)] = value.Interface().(bool)
+			case map[string]interface{}:
+				result[key.Interface().(string)] = value.Interface().(map[string]interface{})
+			default:
+				result[key.Interface().(string)] = value.Interface()
+			}
+
 		}
 	}
 
