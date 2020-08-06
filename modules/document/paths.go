@@ -262,7 +262,10 @@ func buildSpec(doc *document.Document, swagger *openapi3.Swagger, endpoint *open
 
 					cellPara := cell.AddParagraph()
 					cellPara.Properties().SetAlignment(wml.ST_JcCenter)
-					cellPara.AddRun().AddText(param.Value.Name)
+
+					paragraph := cell.AddParagraph().AddRun()
+					paragraph.Properties().SetBold(true)
+					paragraph.AddText(param.Value.Name)
 
 					description := param.Value.Description
 					if description == "" {
