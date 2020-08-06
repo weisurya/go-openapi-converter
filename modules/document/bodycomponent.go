@@ -60,7 +60,9 @@ func createBodyComponent(component *openapi3.Schema, doc *document.Document) {
 		row := table.AddRow()
 
 		cell := row.AddCell()
-		cell.AddParagraph().AddRun().AddText(fieldName)
+		paragraph := cell.AddParagraph().AddRun()
+		paragraph.Properties().SetBold(true)
+		paragraph.AddText(fieldName)
 
 		cell = row.AddCell()
 		cell.AddParagraph().AddRun().AddText(fieldData.Type)

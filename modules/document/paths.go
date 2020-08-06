@@ -124,7 +124,11 @@ func buildSpec(doc *document.Document, swagger *openapi3.Swagger, endpoint *open
 
 				cellPara := cell.AddParagraph()
 				cellPara.Properties().SetAlignment(wml.ST_JcCenter)
-				cellPara.AddRun().AddText(securityKey)
+
+				paragraph := cellPara.AddRun()
+				paragraph.Properties().SetBold(true)
+				paragraph.AddText(securityKey)
+
 				row.AddCell().AddParagraph().AddRun().AddText(securityDetail.Value.Name)
 			}
 		}

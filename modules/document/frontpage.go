@@ -80,7 +80,10 @@ func (s docHandler) BuildFrontpage() {
 			if serverName == "" {
 				serverName = "Default server"
 			}
-			cellPara.AddRun().AddText(serverName)
+
+			paragraph := cellPara.AddRun()
+			paragraph.Properties().SetBold(true)
+			paragraph.AddText(serverName)
 
 			row.AddCell().AddParagraph().AddRun().AddText(server.URL)
 		}
@@ -125,7 +128,9 @@ func (s docHandler) BuildFrontpage() {
 
 			row := table.AddRow()
 			cell := row.AddCell()
-			cell.AddParagraph().AddRun().AddText(key)
+			paragraph := cell.AddParagraph().AddRun()
+			paragraph.Properties().SetBold(true)
+			paragraph.AddText(key)
 
 			cell = row.AddCell()
 			cell.AddParagraph().AddRun().AddText(securityScheme.Value.In)
