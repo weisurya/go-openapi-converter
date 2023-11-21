@@ -37,23 +37,27 @@ func (s docHandler) BuildFrontpage() {
 		run.AddText("Version")
 		row.AddCell().AddParagraph().AddRun().AddText(s.swagger.Info.Version)
 
-		row = table.AddRow()
-		run = row.AddCell().AddParagraph().AddRun()
-		run.Properties().SetBold(true)
-		run.AddText("Contact Person")
-		row.AddCell().AddParagraph().AddRun().AddText(s.swagger.Info.Contact.Name)
+		if s.swagger.Info.Contact != nil {
+			row = table.AddRow()
+			run = row.AddCell().AddParagraph().AddRun()
+			run.Properties().SetBold(true)
+			run.AddText("Contact Person")
 
-		row = table.AddRow()
-		run = row.AddCell().AddParagraph().AddRun()
-		run.Properties().SetBold(true)
-		run.AddText("Contact URL")
-		row.AddCell().AddParagraph().AddRun().AddText(s.swagger.Info.Contact.URL)
+			row.AddCell().AddParagraph().AddRun().AddText(s.swagger.Info.Contact.Name)
 
-		row = table.AddRow()
-		run = row.AddCell().AddParagraph().AddRun()
-		run.Properties().SetBold(true)
-		run.AddText("Contact Email")
-		row.AddCell().AddParagraph().AddRun().AddText(s.swagger.Info.Contact.Email)
+			row = table.AddRow()
+			run = row.AddCell().AddParagraph().AddRun()
+			run.Properties().SetBold(true)
+			run.AddText("Contact URL")
+			row.AddCell().AddParagraph().AddRun().AddText(s.swagger.Info.Contact.URL)
+
+			row = table.AddRow()
+			run = row.AddCell().AddParagraph().AddRun()
+			run.Properties().SetBold(true)
+			run.AddText("Contact Email")
+			row.AddCell().AddParagraph().AddRun().AddText(s.swagger.Info.Contact.Email)
+
+		}
 	}
 
 	// Servers section

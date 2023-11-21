@@ -342,8 +342,9 @@ func buildSpec(doc *document.Document, swagger *openapi3.Swagger, endpoint *open
 				} else if endpoint.Responses[httpStatus].Value.Content.Get(MimeTypeApplicationJSON) != nil {
 					component := endpoint.Responses[httpStatus].Value.Content.Get(MimeTypeApplicationJSON)
 
-					createBodyComponent(component.Schema.Value, doc)
-
+					if component.Schema != nil {
+						createBodyComponent(component.Schema.Value, doc)
+					}
 					para = doc.AddParagraph()
 
 					createExampleComponent(component.Examples, doc)
