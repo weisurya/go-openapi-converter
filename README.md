@@ -22,7 +22,7 @@ Licensed under [MIT License](LICENSE)
 ## How-to-use
 1. Make sure you have fulfilled the requirements above
 2. Git clone `https://github.com/weisurya/go-openapi-converter`
-3. Go build `go build -i -o go-openapi-converter app/main.go`
+3. Go build `go build -o go-openapi-converter app/main.go`
 4. Type `go-openapi-converter -h` to learn more about the available commands
 5. Type `convert -s sample.v1.yaml -t template/standard.docx -o result.sample.docx` to convert OpenAPI spec into .docx format
 6. Type `upload -c credentials.sample.json -d directory -e foo@gmail.com -f result.sample.docx` to upload file into Google Drive
