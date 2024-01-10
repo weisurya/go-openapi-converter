@@ -14,6 +14,7 @@ import (
 )
 
 func createBodyComponent(component *openapi3.Schema, doc *document.Document) {
+
 	doc.AddParagraph()
 
 	table := doc.AddTable()
@@ -49,11 +50,22 @@ func createBodyComponent(component *openapi3.Schema, doc *document.Document) {
 	run.Properties().SetBold(true)
 	run.AddText("Additional Spec.")
 
-	for fieldName := range component.Properties {
-		fieldData := component.Properties[fieldName].Value
+	if component.Type == "array" {
+		arrayItemsSchema := component.Items.Value
+
+		processSchemaProperties(arrayItemsSchema.Properties, arrayItemsSchema.Required, table)
+	} else {
+		processSchemaProperties(component.Properties, component.Required, table)
+	}
+}
+
+func processSchemaProperties(properties map[string]*openapi3.SchemaRef, required []string, table document.Table) {
+	for fieldName := range properties {
+
+		fieldData := properties[fieldName].Value
 
 		isRequired := false
-		if utils.IsDataExistInArray(component.Required, fieldName) == true {
+		if utils.IsDataExistInArray(required, fieldName) == true {
 			isRequired = true
 		}
 
