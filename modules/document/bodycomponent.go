@@ -50,15 +50,11 @@ func createBodyComponent(component *openapi3.Schema, doc *document.Document) {
 	run.Properties().SetBold(true)
 	run.AddText("Additional Spec.")
 
-	// Check if the response schema is of the array type
 	if component.Type == "array" {
-		// Get the schema of the array items
 		arrayItemsSchema := component.Items.Value
 
-		// Process the array items schema
 		processSchemaProperties(arrayItemsSchema.Properties, arrayItemsSchema.Required, table)
 	} else {
-		// Process the schema directly
 		processSchemaProperties(component.Properties, component.Required, table)
 	}
 }
