@@ -56,122 +56,69 @@ func createBodyComponent(component *openapi3.Schema, doc *document.Document) {
 		arrayItemsSchema := component.Items.Value
 
 		// Process the array items schema
-		for fieldName := range arrayItemsSchema.Properties {
-			fmt.Printf("Processing field: %s\n", fieldName)
-
-			fieldData := arrayItemsSchema.Properties[fieldName].Value
-
-			isRequired := false
-			if utils.IsDataExistInArray(arrayItemsSchema.Required, fieldName) == true {
-				isRequired = true
-			}
-
-			row := table.AddRow()
-
-			cell := row.AddCell()
-			paragraph := cell.AddParagraph().AddRun()
-			paragraph.Properties().SetBold(true)
-			paragraph.AddText(fieldName)
-
-			cell = row.AddCell()
-			cell.AddParagraph().AddRun().AddText(fieldData.Type)
-
-			cell = row.AddCell()
-			cell.AddParagraph().AddRun().AddText(fieldData.Description)
-
-			cell = row.AddCell()
-			cell.AddParagraph().AddRun().AddText(fmt.Sprintf("Required: %s", strconv.FormatBool(isRequired)))
-
-			if fieldData.Default != nil {
-				cell.AddParagraph().AddRun().AddText(fmt.Sprintf("Default: %v", fieldData.Default))
-			}
-
-			if len(fieldData.Enum) >= 1 {
-				listEnum := ""
-				for i, datum := range fieldData.Enum {
-					if i != 0 {
-						listEnum += ", "
-					}
-					listEnum += datum.(string)
-				}
-
-				cell.AddParagraph().AddRun().AddText(fmt.Sprintf("Enum: %s", listEnum))
-			}
-
-			if fieldData.Example != nil {
-				cell.AddParagraph().AddRun().AddText(fmt.Sprintf("Example: %s", fieldData.Example.(string)))
-			}
-
-			if fieldData.Pattern != "" {
-				cell.AddParagraph().AddRun().AddText(fmt.Sprintf("Pattern: %s", fieldData.Pattern))
-			}
-
-			if fieldData.MinLength != 0 {
-				cell.AddParagraph().AddRun().AddText(fmt.Sprintf("Min. Length: %s", strconv.FormatUint(fieldData.MinLength, 10)))
-			}
-
-			if fieldData.MaxLength != nil {
-				cell.AddParagraph().AddRun().AddText(fmt.Sprintf("Max. Length: %s", strconv.FormatUint(*fieldData.MaxLength, 10)))
-			}
-		}
+		processSchemaProperties(arrayItemsSchema.Properties, arrayItemsSchema.Required, table)
 	} else {
 		// Process the schema directly
-		for fieldName := range component.Properties {
+		processSchemaProperties(component.Properties, component.Required, table)
+	}
+}
 
-			fieldData := component.Properties[fieldName].Value
+func processSchemaProperties(properties map[string]*openapi3.SchemaRef, required []string, table document.Table) {
+	for fieldName := range properties {
 
-			isRequired := false
-			if utils.IsDataExistInArray(component.Required, fieldName) == true {
-				isRequired = true
-			}
+		fieldData := properties[fieldName].Value
 
-			row := table.AddRow()
+		isRequired := false
+		if utils.IsDataExistInArray(required, fieldName) == true {
+			isRequired = true
+		}
 
-			cell := row.AddCell()
-			paragraph := cell.AddParagraph().AddRun()
-			paragraph.Properties().SetBold(true)
-			paragraph.AddText(fieldName)
+		row := table.AddRow()
 
-			cell = row.AddCell()
-			cell.AddParagraph().AddRun().AddText(fieldData.Type)
+		cell := row.AddCell()
+		paragraph := cell.AddParagraph().AddRun()
+		paragraph.Properties().SetBold(true)
+		paragraph.AddText(fieldName)
 
-			cell = row.AddCell()
-			cell.AddParagraph().AddRun().AddText(fieldData.Description)
+		cell = row.AddCell()
+		cell.AddParagraph().AddRun().AddText(fieldData.Type)
 
-			cell = row.AddCell()
-			cell.AddParagraph().AddRun().AddText(fmt.Sprintf("Required: %s", strconv.FormatBool(isRequired)))
+		cell = row.AddCell()
+		cell.AddParagraph().AddRun().AddText(fieldData.Description)
 
-			if fieldData.Default != nil {
-				cell.AddParagraph().AddRun().AddText(fmt.Sprintf("Default: %v", fieldData.Default))
-			}
+		cell = row.AddCell()
+		cell.AddParagraph().AddRun().AddText(fmt.Sprintf("Required: %s", strconv.FormatBool(isRequired)))
 
-			if len(fieldData.Enum) >= 1 {
-				listEnum := ""
-				for i, datum := range fieldData.Enum {
-					if i != 0 {
-						listEnum += ", "
-					}
-					listEnum += datum.(string)
+		if fieldData.Default != nil {
+			cell.AddParagraph().AddRun().AddText(fmt.Sprintf("Default: %v", fieldData.Default))
+		}
+
+		if len(fieldData.Enum) >= 1 {
+			listEnum := ""
+			for i, datum := range fieldData.Enum {
+				if i != 0 {
+					listEnum += ", "
 				}
-
-				cell.AddParagraph().AddRun().AddText(fmt.Sprintf("Enum: %s", listEnum))
+				listEnum += datum.(string)
 			}
 
-			if fieldData.Example != nil {
-				cell.AddParagraph().AddRun().AddText(fmt.Sprintf("Example: %s", fieldData.Example.(string)))
-			}
+			cell.AddParagraph().AddRun().AddText(fmt.Sprintf("Enum: %s", listEnum))
+		}
 
-			if fieldData.Pattern != "" {
-				cell.AddParagraph().AddRun().AddText(fmt.Sprintf("Pattern: %s", fieldData.Pattern))
-			}
+		if fieldData.Example != nil {
+			cell.AddParagraph().AddRun().AddText(fmt.Sprintf("Example: %s", fieldData.Example.(string)))
+		}
 
-			if fieldData.MinLength != 0 {
-				cell.AddParagraph().AddRun().AddText(fmt.Sprintf("Min. Length: %s", strconv.FormatUint(fieldData.MinLength, 10)))
-			}
+		if fieldData.Pattern != "" {
+			cell.AddParagraph().AddRun().AddText(fmt.Sprintf("Pattern: %s", fieldData.Pattern))
+		}
 
-			if fieldData.MaxLength != nil {
-				cell.AddParagraph().AddRun().AddText(fmt.Sprintf("Max. Length: %s", strconv.FormatUint(*fieldData.MaxLength, 10)))
-			}
+		if fieldData.MinLength != 0 {
+			cell.AddParagraph().AddRun().AddText(fmt.Sprintf("Min. Length: %s", strconv.FormatUint(fieldData.MinLength, 10)))
+		}
+
+		if fieldData.MaxLength != nil {
+			cell.AddParagraph().AddRun().AddText(fmt.Sprintf("Max. Length: %s", strconv.FormatUint(*fieldData.MaxLength, 10)))
 		}
 	}
 }
